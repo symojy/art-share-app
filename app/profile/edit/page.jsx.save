@@ -1,0 +1,87 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { auth, db } from "../../../lib/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  getDocs,
+  collection
+} from "firebase/firestore";
+
+export default function EditProfilePage() {
+  const [userId, setUserId] = useState(null);
+  const [artistOptions, setArtistOptions] = useState([]);
+  const [selectedArtist, setSelectedArtist] = useState("");
+
+  // ユーザー認証チェック
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) setUserId(user.uid);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Firestore から artist 一覧を読み込み
+  useEffect(() => {
+    const fetchArtists = async () => {
+      const snapshot = await getDocs(collection(db, "artists"));
+      const artists = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setArtistOptions(artists);
+    };
+    fetchArtists();
+  }, []);
+
+  const handleSave = async () => {
+    if (!userId || !selectedArtist) {
+      alert("アーティストを選んでください");
+      return;
+    }
+
+    const userRef = doc(db, "users", userId);
+
+    try {
+      const snapshot = await getDoc(userRef);
+      if (snapshot.exists()) {
+        await updateDoc(userRef, {
+          favoriteArtists: [selectedArtist],
+        });
+      }
+      alert("保存しました！");
+    } catch (error) {
+      console.error("保存エラー:", error);
+      alert("保存に失敗しました");
+    }
+  };
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h1>プロフィール編集</h1>
+
+      <div>
+        <label>好きな芸術家：</label>
+        <select
+          value={selectedArtist}
+          onChange={(e) => setSelectedArtist(e.target.value)}
+          style={{ width: "100%", padding: 5 }}
+        >
+          <option value="">-- 選択してください --</option>
+          {artistOptions.map((artist) => (
+            <option key={artist.id} value={artist.ja}>
+              {artist.ja}（{artist.en}）
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <button onClick={handleSave} style={{ marginTop: 10 }}>
+        保存する
+      </button>
+    </div>
+  );
+}

@@ -1,0 +1,29 @@
+nano app/profile/edit/page.jsx
+nano app/profile/edit/page.jsx
+"use client";
+
+import { useState, useEffect } from "react";
+import { auth, db } from "../../../lib/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import {
+  doc,
+  updateDoc,
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where
+} from "firebase/firestore";
+
+export default function EditProfilePage() {
+  const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [userEmoji, setUserEmoji] = useState("🎨");
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+
+  const [artistOptions, setArtistOptions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [selectedArtists, setSelectedArtists] = useState([]);
+}

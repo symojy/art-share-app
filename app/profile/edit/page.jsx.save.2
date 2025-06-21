@@ -1,0 +1,236 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { auth, db } from "../../../lib/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import {
+  doc,
+ updateDoc,
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where
+} from "firebase/firestore";
+
+export default function EditProfilePage() {
+  const router = useRouter();
+  const [userId, setUserId] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [userEmoji, setUserEmoji] = useState("🎨");
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+
+  const [artistOptions, setArtistOptions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredOptions, setFilteredOptions] = useState([]);
+  const [selectedArtists, setSelectedArtists] = useState([]);
+
+  const emojiList = ["🎨", "🖼️", "✨", "🌟", "📷", "🧠", "🕊️", "🌈", "🌀"];
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserId(user.uid);
+        const userRef = doc(db, "users", user.uid);
+        const snapshot = await getDoc(userRef);
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          setUserName(data.userName || "");
+          setUsername(data.username || "");
+          setUserEmoji(data.userEmoji || "🎨");
+          setSelectedArtists(data.favoriteArtists || []);
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchArtists = async () => {
+      const snapshot = await getDocs(collection(db, "artists"));
+      const artists = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setArtistOptions(artists);
+    };
+    fetchArtists();
+  }, []);
+
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setFilteredOptions([]);
+      return;
+    }
+    const filtered = artistOptions.filter((artist) =>
+      artist.ja.includes(searchTerm) ||
+      artist.en.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredOptions(filtered);
+  }, [searchTerm, artistOptions]);
+
+  const addArtist = (artist) => {
+    const alreadyAdded = selectedArtists.find((a) => a.name === artist.ja);
+    if (!alreadyAdded) {
+      setSelectedArtists([...selectedArtists, { name: artist.ja, favorite: false }]);
+    }
+    setSearchTerm("");
+    setFilteredOptions([]);
+  };
+
+  const toggleFavorite = (name) => {
+    setSelectedArtists((prev) =>
+      prev.map((a) =>
+        a.name === name ? { ...a, favorite: !a.favorite } : a
+      )
+    );
+  };
+
+  const removeArtist = (name) => {
+    setSelectedArtists((prev) => prev.filter((a) => a.name !== name));
+  };
+
+  const handleSave = async () => {
+    if (!userId) {
+      alert("ログインが必要です");
+      return;
+    }
+
+    if (!username.match(/^[a-zA-Z0-9_]{3,20}$/)) {
+      setUsernameError("3〜20文字の英数字で入力してください");
+      return;
+    }
+
+    const q = query(collection(db, "users"), where("username", "==", username));
+    const snapshot = await getDocs(q);
+    const conflict = snapshot.docs.find((doc) => doc.id !== userId);
+    if (conflict) {
+      setUsernameError("このユーザーIDはすでに使われています");
+      return;
+    }
+
+    setUsernameError("");
+
+    const userRef = doc(db, "users", userId);
+    try {
+      await updateDoc(userRef, {
+        userName,
+        userEmoji,
+        username,
+        favoriteArtists: selectedArtists,
+      });
+      alert("保存しました！");
+      router.push("/profile");
+    } catch (error) {
+      console.error("保存エラー:", error);
+      alert("保存に失敗しました");
+    }
+  };
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h1>プロフィール編集</h1>
+
+      <div style={{ marginBottom: 12 }}>
+        <label>ユーザーID（英数字 3〜20文字）：</label><br />
+        <input
+          type="text"
+          maxLength={20}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={{ width: "100%", padding: 8 }}
+        />
+        {usernameError && <p style={{ color: "red" }}>{usernameError}</p>}
+      </div>
+
+      <div style={{ marginBottom: 12 }}>
+        <label>表示名（ニックネーム）：</label><br />
+        <input
+          type="text"
+          maxLength={20}
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          style={{ width: "100%", padding: 8 }}
+        />
+      </div>
+
+      <div style={{ marginBottom: 12 }}>
+        <label>アイコン絵文字：</label><br />
+        <select
+          value={userEmoji}
+          onChange={(e) => setUserEmoji(e.target.value)}
+          style={{ width: "100%", padding: 8 }}
+        >
+          {emojiList.map((emoji) => (
+            <option key={emoji} value={emoji}>{emoji}</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label>好きな芸術家を検索して追加：</label><br />
+        <input
+          type="text"
+          placeholder="名前を入力（日本語 or 英語）"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{ width: "100%", padding: 8, marginBottom: 8 }}
+        />
+      </div>
+
+      {filteredOptions.length > 0 && (
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, border: "1px solid #ccc" }}>
+          {filteredOptions.map((artist) => (
+            <li
+              key={artist.id}
+              style={{
+                padding: 8,
+                cursor: "pointer",
+                borderBottom: "1px solid #eee",
+              }}
+              onClick={() => addArtist(artist)}
+            >
+              {artist.ja}（{artist.en}）
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div style={{ marginTop: 16 }}>
+        <h3>選択中のアーティスト：</h3>
+        <ul style={{ padding: 0, listStyle: "none" }}>
+          {selectedArtists.map((a) => (
+            <li
+              key={a.name}
+              style={{
+                marginBottom: 8,
+                padding: 8,
+                border: "1px solid #ddd",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
+            >
+              <span>
+                {a.name} {a.favorite && "✨"}
+              </span>
+              <div>
+                <button onClick={() => toggleFavorite(a.name)} style={{ marginRight: 8 }}>
+                  {a.favorite ? "✨外す" : "✨推し"}
+                </button>
+                <button onClick={() => removeArtist(a.name)}>❌削除</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <button onClick={handleSave} style={{ marginTop: 16 }}>
+        保存する
+      </button>
+    </div>
+  );
+}
