@@ -50,7 +50,7 @@ export default function UsersPage() {
           textDecoration: "none",
         }}
       >
-        Arrrtr
+        ARRRTR
       </Link>
       <p style={{ fontSize: "0.7rem", color: "#555", margin: 0 }}>
          アート好きの共感スペース
@@ -58,7 +58,7 @@ export default function UsersPage() {
     </div>
 
     <div style={{ fontSize: "0.95rem", color: "#555" }}>
-      [👥登録者:{users.length}人]
+登録者:{users.length}人
     </div>
 
     <Link href="/profile" style={{ fontSize: "1.5rem" }}>
@@ -82,7 +82,7 @@ export default function UsersPage() {
   style={{
     padding: "8px 16px",
     borderRadius: 20,
-    backgroundColor: "#f0e8dc",     // ← 選択中タブを淡ベージュで強調
+    backgroundColor: "#f0e8dc",
     fontWeight: 600,
     color: "#1a1a1a",
     border: "1px solid #ddd",
@@ -133,7 +133,8 @@ export default function UsersPage() {
   <div style={{ fontSize: "1.2rem", fontWeight: 400, marginBottom: 8 }}>
                 {user.userEmoji || "👤"} {user.userName || "（名前なし）"}
               </div>
-
+  {/* 🔽 ディバイダー */}
+  <hr style={{ margin: "8px 0", border: "none", borderTop: "1px solid #ddd" }} />
 <div style={{ paddingLeft: 9, marginTop: 10 }}>
   {/* 🎨 好きな芸術家 */}
   {user.favoriteArtists?.length > 0 && (

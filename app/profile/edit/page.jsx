@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { auth, db } from "../../../lib/firebaseConfig";
 import {
@@ -229,23 +229,31 @@ const toggleFavorite = (name, isMuseum = false) => {
 >
 <div
   style={{
-    padding: "16px 32px",
-    backgroundColor: "#faf7f2",
-    borderBottom: "1px solid #ddd",
+    padding: "7px 15px", // ✅ 修正
+    backgroundColor: "#f5de57", // ✅ 修正（黄色に）
+    borderBottom: "0px solid #ddd", // ✅ 不要なので0pxに
   }}
 >
-  <a
-    href="/users"
-    style={{
-      fontSize: "1.9rem",
-      fontWeight: 600,
-      color: "#4a3f3f",
-      textDecoration: "none",
-    }}
-  >
-    Arrrtr
-  </a>
+  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div>
+      <Link
+        href="/users"
+        style={{
+          fontSize: "1.7rem",       // ✅ サイズ統一
+          fontWeight: 700,          // ✅ 太字強めに
+          color: "#000",            // ✅ 黒に
+          textDecoration: "none",
+        }}
+      >
+        ARRRTR
+      </Link>
+      <p style={{ fontSize: "0.7rem", color: "#555", margin: 0 }}>
+         アート好きの共感スペース
+      </p>
+    </div>
+  </div>
 </div>
+
 
 <div
   style={{

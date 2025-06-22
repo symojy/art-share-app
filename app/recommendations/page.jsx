@@ -71,25 +71,32 @@ export default function RecommendationsPage() {
       {/* グローバルナビ */}
 <div
   style={{
-    padding: "16px 32px",
-    backgroundColor: "#faf7f2",
+    padding: "7px 15px",
+    backgroundColor: "#f5de57", // 🟡 変更！
     color: "#1a1a1a",
-    borderBottom: "1px solid #ddd",
+    borderBottom: "0px solid #ddd",
   }}
 >
   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-    <Link
-      href="/users"
-      style={{
-        fontSize: "1.9rem",
-        fontWeight: 600,
-        color: "#4a3f3f",
-        textDecoration: "none",
-      }}
-    >
-      Arrrtr
+    <div>
+      <Link
+        href="/users"
+        style={{
+          fontSize: "1.7rem",
+          fontWeight: 700,
+          color: "#000", // 🖤 ここを黒に
+          textDecoration: "none",
+        }}
+      >
+        ARRRTR
+      </Link>
+      <p style={{ fontSize: "0.7rem", color: "#555", margin: 0 }}>
+         アート好きの共感スペース
+      </p>
+    </div>
+    <Link href="/profile" style={{ fontSize: "1.5rem" }}>
+      🏠
     </Link>
-    <Link href="/profile" style={{ fontSize: "1.5rem" }}>👤</Link>
   </div>
 </div>
 
