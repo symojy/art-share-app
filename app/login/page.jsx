@@ -12,33 +12,42 @@ export default function LoginPage() {
   const router = useRouter();
   const [showToast, setShowToast] = useState(false);
 
-  const loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+const loginWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      const userRef = doc(db, "users", user.uid);
-      const snapshot = await getDoc(userRef);
+    const userRef = doc(db, "users", user.uid);
+    const snapshot = await getDoc(userRef);
 
-      if (!snapshot.exists()) {
-        await setDoc(userRef, {
-          name: user.displayName,
-          email: user.email,
-          createdAt: serverTimestamp()
-        });
-      }
+    setShowToast(true);
 
-      setShowToast(true);
+    if (!snapshot.exists()) {
+      // 🔸 初回ログイン：Firestoreにユーザーを登録し、プロフィール編集ページへ
+      await setDoc(userRef, {
+        name: user.displayName,
+        email: user.email,
+        createdAt: serverTimestamp()
+      });
+
+      setTimeout(() => {
+        setShowToast(false);
+        router.push("/profile/edit"); // ✅ 初回ユーザー：編集ページへ
+      }, 1500);
+    } else {
+      // 🔹 既存ユーザー：ユーザー一覧へ
       setTimeout(() => {
         setShowToast(false);
         router.push("/users");
-      }, 2000);
-    } catch (error) {
-      console.error("ログイン失敗:", error);
-      alert("ログイン失敗しました");
+      }, 1500);
     }
-  };
+  } catch (error) {
+    console.error("ログイン失敗:", error);
+    alert("ログイン失敗しました");
+  }
+};
+
 
   return (
 <div

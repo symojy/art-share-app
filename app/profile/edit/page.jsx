@@ -52,6 +52,7 @@ export default function EditProfilePage() {
   const [userNameError, setUserNameError] = useState("");
   const [instagramError, setInstagramError] = useState("");
 
+　const [showWelcome, setShowWelcome] = useState(false); 
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -67,6 +68,8 @@ export default function EditProfilePage() {
           setInstagram(data.instagram || "");
           setSelectedArtists(data.favoriteArtists || []);
           setSelectedMuseums(data.visitedMuseums || []);
+            if ((data.favoriteArtists?.length || 0) === 0) {
+    setShowWelcome(true);
         }
       }
     });
@@ -601,6 +604,50 @@ const toggleFavorite = (name, isMuseum = false) => {
           </div>
         )}
       </div>
+      {showWelcome && (
+  <div style={{
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "rgba(0,0,0,0.4)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 9999
+  }}>
+    <div style={{
+      backgroundColor: "#fff",
+      padding: "24px 32px",
+      borderRadius: 12,
+      maxWidth: 400,
+      textAlign: "center",
+      boxShadow: "0 2px 10px rgba(0,0,0,0.2)"
+    }}>
+      <h2 style={{ fontSize: "1.5rem", marginBottom: 16 }}>🎉 ようこそ、Arrrtrへ！</h2>
+      <p style={{ fontSize: "1rem", marginBottom: 24 }}>
+        まずは「好きな芸術家」を1人以上登録して、<br />
+        あなたのアートの好みを表現してみましょう。
+      </p>
+      <button
+        onClick={() => setShowWelcome(false)}
+        style={{
+          padding: "10px 20px",
+          backgroundColor: "#4a3f3f",
+          color: "#fff",
+          fontWeight: 600,
+          border: "none",
+          borderRadius: 6,
+          cursor: "pointer"
+        }}
+      >
+        OK、登録する！
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
