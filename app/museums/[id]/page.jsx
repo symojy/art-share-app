@@ -63,7 +63,7 @@ export default function MuseumDetail() {
         const userRef = doc(db, "users", authUser.uid);
         const userSnap = await getDoc(userRef);
         const data = userSnap.data();
-        if (data?.visitedMuseums?.includes(id)) {
+        if (data?.visitedMuseums?.some((m) => m.id === id)) {
           setIsAlreadyAdded(true);
         }
       }
@@ -215,24 +215,21 @@ if (!museum) {
   ))}
 </div>
 
-{/* ✅ ここを切り替え式に */}
-{isAlreadyAdded ? (
-  <p style={{ marginTop: 12, fontSize: "0.95rem", color: "#666" }}>
-    ✅ 登録済みの美術館
-  </p>
-) : (
+{user && (
   <button
     onClick={addToVisited}
+    disabled={isAlreadyAdded}
     style={{
       padding: "8px 16px",
-      backgroundColor: "#2b2e4a",
+      backgroundColor: isAlreadyAdded ? "#ccc" : "#000",
       color: "#fff",
-      border: "none",
+      fontWeight: 600,
       borderRadius: 4,
-      cursor: "pointer",
+      border: "none",
+      cursor: isAlreadyAdded ? "not-allowed" : "pointer",
     }}
   >
-    行ったことあるに追加
+    {isAlreadyAdded ? "追加済み ✔︎" : "好きな美術館に追加"}
   </button>
 )}
 

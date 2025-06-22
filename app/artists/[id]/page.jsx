@@ -197,7 +197,7 @@ export default function ArtistDetailPage() {
                 cursor: isAlreadyAdded ? "not-allowed" : "pointer",
               }}
             >
-              {isAlreadyAdded ? "追加済み ✔︎" : "このアーティストを好きに追加"}
+              {isAlreadyAdded ? "追加済み ✔︎" : "この芸術家を好きに追加"}
             </button>
           )}
         </div>

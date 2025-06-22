@@ -98,7 +98,7 @@ export default function ProfilePage() {
     href="/profile/edit"
     style={{ color: "#000", textDecoration: "underline" }}
   >
-    プロフィール＆好き登録📝
+    プロフ編集＆好き登録📝
   </Link>
         </div>
 
