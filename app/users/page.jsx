@@ -130,7 +130,7 @@ export default function UsersPage() {
     color: "#1a1a1a",
   }}
 >
-  <div style={{ fontSize: "1.5rem", fontWeight: 600, marginBottom: 8 }}>
+  <div style={{ fontSize: "1.2rem", fontWeight: 400, marginBottom: 8 }}>
                 {user.userEmoji || "👤"} {user.userName || "（名前なし）"}
               </div>
 
@@ -141,12 +141,12 @@ export default function UsersPage() {
       <div style={{ fontSize: "0.9rem", color: "#888" }}>
         🎨 好きな芸術家：
       </div>
-      <div style={{ fontSize: "1.2rem", marginTop: 2 }}>
+      <div style={{ fontSize: "1.1rem", marginTop: 2, fontWeight: 500}}>
     {[...user.favoriteArtists]
         .sort((a, b) => (b.favorite === true) - (a.favorite === true))
         .slice(0, 3)
         .map((a) => `${a.favorite ? "✨" : ""}${a.name}`)
-        .join("、 ")}
+        .join("、")}
         {user.favoriteArtists.length > 3 && "..."}
       </div>
     </div>
@@ -158,7 +158,7 @@ export default function UsersPage() {
       <div style={{ fontSize: "0.9rem", color: "#888" }}>
         🏛 好きな美術館：
       </div>
-      <div style={{ fontSize: "1.2rem", marginTop: 2 }}>
+      <div style={{ fontSize: "1.1rem", marginTop: 2, fontWeight: 500}}>
     {[...user.visitedMuseums]
         .sort((a, b) => (b.favorite === true) - (a.favorite === true))
         .slice(0, 3)
