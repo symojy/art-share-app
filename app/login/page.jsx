@@ -65,7 +65,7 @@ const loginWithGoogle = async () => {
   return (
 <div
   style={{
-    backgroundColor: "#faf7f2",
+    backgroundColor: "#f5de57",
     color: "#1a1a1a",
     minHeight: "100vh",
     fontFamily: '"Helvetica Neue", "Noto Sans JP", sans-serif',
@@ -89,17 +89,16 @@ const loginWithGoogle = async () => {
 >
 
         <h1 style={{ fontSize: "2rem", fontWeight: 700, marginBottom: 16 }}>
-          🎨 Arrrtr
+          ARRRTR
         </h1>
         <p style={{ fontSize: "1rem", marginBottom: 24, lineHeight: 1.5 }}>
-          あなたの「推し」が誰かの出会いに。<br />
-          記録と共感でひろがる、小さくて静かなアートSNS。
+          あなたの「推し」が誰かの出会いに。記録と共感でひろがる、小さくて静かな共感スペース。
         </p>
 
         <div style={{ marginBottom: 24, fontSize: "0.95rem", lineHeight: 1.4 }}>
           <div>🎨 好きな芸術家を記録しよう</div>
           <div>🤝 好みが近い人とつながれる</div>
-          <div>🌟 推しアーティストから新たな発見がある</div>
+          <div>🌟 推しから新たな発見がある</div>
         </div>
 
         <button
@@ -108,16 +107,16 @@ const loginWithGoogle = async () => {
             padding: "10px 20px",
             fontSize: "1rem",
             fontWeight: 600,
-            backgroundColor: "#4a3f3f",
-            color: "#fff",
+            backgroundColor: "#f5de57",
+            color: "#000",
             border: "none",
             borderRadius: 4,
             cursor: "pointer",
             marginBottom: 16,
-            boxShadow: "2px 2px #666"
+            boxShadow: "none"
           }}
         >
-          Googleでログイン
+          Googleで登録/ログイン
         </button>
 
         <div>
@@ -129,7 +128,7 @@ const loginWithGoogle = async () => {
               textDecoration: "underline"
             }}
           >
-            ログインせずにユーザー一覧を見る
+            とりあえずどんな感じか見てみる👀
           </Link>
         </div>
       </div>
