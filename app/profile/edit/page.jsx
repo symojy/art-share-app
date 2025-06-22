@@ -297,7 +297,7 @@ const toggleFavorite = (name, isMuseum = false) => {
         {activeTab === "profile" && (
           <>
             <h2 style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 16 }}>プロフィール情報</h2>
-        <label>名前</label>
+        <label>ニックネーム(表示名)※必須</label>
 <input
   value={userName}
   onChange={(e) => {
@@ -326,7 +326,7 @@ const toggleFavorite = (name, isMuseum = false) => {
     {userNameError}
   </p>
 )}
-        <label style={{ marginTop: 16, display: "block" }}>アイコン絵文字</label>
+        <label style={{ marginTop: 16, display: "block" }}>アイコン絵文字（お好みで1つ）</label>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
           {emojiOptions.map((emoji) => (
             <button key={emoji} onClick={() => setUserEmoji(emoji)} style={{
@@ -340,7 +340,7 @@ const toggleFavorite = (name, isMuseum = false) => {
           ))}
         </div>
 
-        <label>ユーザーID</label>
+        <label>ユーザーID(URLで使われる)※変更OK</label>
 <input
   value={username}
   onChange={(e) => {
@@ -375,7 +375,7 @@ const toggleFavorite = (name, isMuseum = false) => {
 )}
 
 
-<label style={{ marginTop: 16, display: "block" }}>Instagram ID（任意）</label>
+<label style={{ marginTop: 16, display: "block" }}>Instagram ID※任意</label>
 <div style={{
   display: "flex",
   alignItems: "center",
@@ -622,14 +622,13 @@ const toggleFavorite = (name, isMuseum = false) => {
       backgroundColor: "#fff",
       padding: "24px 32px",
       borderRadius: 12,
-      maxWidth: 400,
+      maxWidth: 300,
       textAlign: "center",
       boxShadow: "0 2px 10px rgba(0,0,0,0.2)"
     }}>
       <h2 style={{ fontSize: "1.5rem", marginBottom: 16 }}>🎉 ようこそ、Arrrtrへ！</h2>
       <p style={{ fontSize: "1rem", marginBottom: 24 }}>
-        まずは「好きな芸術家」を1人以上登録して、<br />
-        あなたのアートの好みを表現してみましょう。
+        読み方は「アーター」です😁早速ニックネームや好きな芸術家を登録してあなたのアートの好みを表現してみましょう。
       </p>
       <button
         onClick={() => setShowWelcome(false)}
@@ -643,7 +642,7 @@ const toggleFavorite = (name, isMuseum = false) => {
           cursor: "pointer"
         }}
       >
-        OK、登録する！
+        OK、やってみる！
       </button>
     </div>
   </div>

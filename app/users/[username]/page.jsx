@@ -157,19 +157,20 @@ export default function UserProfileByUsername() {
     @{userData.username || "ユーザーID不明"}
   </p>
             {/* Instagram */}
-          {userData.instagram && (
-            <p style={{ marginBottom: 24 }}>
-              📸{" "}
-              <a
-                href={userData.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#1a1a1a" }}
-              >
-                Instagram
-              </a>
-            </p>
-          )}
+{userData.instagram && (
+  <p style={{ marginBottom: 24 }}>
+    📷️Instagram :{" "}
+    <a
+      href={`https://instagram.com/${userData.instagram}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ color: "#1a1a1a", textDecoration: "underline" }}
+    >
+      @{userData.instagram}
+    </a>
+  </p>
+)}
+
 </div>
 
         {/* 下部（左揃え） */}

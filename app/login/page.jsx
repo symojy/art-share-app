@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth, db } from "../../lib/firebaseConfig";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -21,32 +21,45 @@ const loginWithGoogle = async () => {
     const userRef = doc(db, "users", user.uid);
     const snapshot = await getDoc(userRef);
 
-    setShowToast(true);
-
     if (!snapshot.exists()) {
-      // 🔸 初回ログイン：Firestoreにユーザーを登録し、プロフィール編集ページへ
+      // 🔸 重複しない username を生成
+      const generateUniqueUsername = async () => {
+        let username;
+        let isUnique = false;
+
+        while (!isUnique) {
+          username = `user_${Math.random().toString(36).slice(2, 10)}`;
+          const existing = await getDocs(
+            query(collection(db, "users"), where("username", "==", username))
+          );
+          if (existing.empty) {
+            isUnique = true;
+          }
+        }
+        return username;
+      };
+
+      const uniqueUsername = await generateUniqueUsername();
+
       await setDoc(userRef, {
         name: user.displayName,
         email: user.email,
+        username: uniqueUsername, // ✅ 自動生成で重複なし
         createdAt: serverTimestamp()
       });
-
-      setTimeout(() => {
-        setShowToast(false);
-        router.push("/profile/edit"); // ✅ 初回ユーザー：編集ページへ
-      }, 1500);
-    } else {
-      // 🔹 既存ユーザー：ユーザー一覧へ
-      setTimeout(() => {
-        setShowToast(false);
-        router.push("/users");
-      }, 1500);
     }
+
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+      router.push("/users");
+    }, 2000);
   } catch (error) {
     console.error("ログイン失敗:", error);
     alert("ログイン失敗しました");
   }
 };
+
 
 
   return (
