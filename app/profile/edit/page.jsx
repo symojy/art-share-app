@@ -72,6 +72,7 @@ export default function EditProfilePage() {
     setShowWelcome(true);
         }
       }
+    }
     });
     return () => unsubscribe();
   }, []);
