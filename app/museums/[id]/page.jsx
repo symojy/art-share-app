@@ -153,16 +153,28 @@ if (!museum) {
           overflow: "hidden",
         }}
       >
-        <div
-          style={{
-            width: "100%",
-            height: 280,
-            backgroundImage: `url(${museum.imageUrl})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
+<div
+  style={{
+    width: "100%",
+    height: 280,
+    backgroundColor: "#eee",
+    backgroundImage: museum.imageUrl
+      ? `url(${museum.imageUrl})`
+      : "none",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "1.2rem",
+    color: "#888",
+    fontStyle: "italic",
+  }}
+>
+  {!museum.imageUrl && "No Image"}
+</div>
+
 
         <div style={{ padding: 24 }}>
           <h1 style={{ fontSize: "1.8rem", fontWeight: 700 }}>{museum.ja}</h1>

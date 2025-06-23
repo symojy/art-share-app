@@ -139,16 +139,29 @@ export default function ArtistDetailPage() {
         }}
       >
         {/* 背景画像：カード全幅で表示 */}
-        <div
-          style={{
-            width: "100%",
-            height: 350,
-            backgroundImage: `url(${artist.imageUrl})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
+{/* 背景画像：カード全幅で表示 */}
+<div
+  style={{
+    width: "100%",
+    height: 350,
+    backgroundColor: "#eee",
+    backgroundImage: artist.imageUrl
+      ? `url(${artist.imageUrl})`
+      : "none",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "1.2rem",
+    color: "#888",
+    fontStyle: "italic",
+  }}
+>
+  {!artist.imageUrl && "No Image"}
+</div>
+
 
         {/* カードの中身 */}
         <div style={{ padding: 24 }}>
