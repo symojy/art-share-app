@@ -217,94 +217,154 @@ const toggleFavorite = (name, isMuseum = false) => {
     }, 1000);
   };
 
-  return (
-<div
-  style={{
-    backgroundColor: "#faf7f2",
-    color: "#1a1a1a",
-    minHeight: "100vh",
-    paddingBottom: 32,
-    fontFamily: '"Helvetica Neue", "Noto Sans JP", sans-serif',
-  }}
->
-<div
-  style={{
-    padding: "7px 15px", // ✅ 修正
-    backgroundColor: "#f5de57", // ✅ 修正（黄色に）
-    borderBottom: "0px solid #ddd", // ✅ 不要なので0pxに
-  }}
->
-  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-    <div>
-      <Link
-        href="/users"
-        style={{
-          fontSize: "1.7rem",       // ✅ サイズ統一
-          fontWeight: 700,          // ✅ 太字強めに
-          color: "#000",            // ✅ 黒に
-          textDecoration: "none",
-        }}
-      >
-        ARRRTR
-      </Link>
-      <p style={{ fontSize: "0.7rem", color: "#555", margin: 0 }}>
-         アート好きの共感スペース
-      </p>
+return (
+  <div
+    style={{
+      backgroundColor: "#faf7f2",
+      color: "#1a1a1a",
+      minHeight: "100vh",
+      paddingBottom: 32,
+      fontFamily: '"Helvetica Neue", "Noto Sans JP", sans-serif',
+    }}
+  >
+
+    {/* グローバルナビ */}
+    <div
+      style={{
+        padding: "7px 15px",
+        backgroundColor: "#f5de57",
+        borderBottom: "0px solid #ddd",
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div>
+          <Link
+            href="/users"
+            style={{
+              fontSize: "1.7rem",
+              fontWeight: 700,
+              color: "#000",
+              textDecoration: "none",
+            }}
+          >
+            ARRRTR
+          </Link>
+          <p style={{ fontSize: "0.7rem", color: "#555", margin: 0 }}>
+            アート好きの共感スペース
+          </p>
+        </div>
+      </div>
     </div>
+
+
+{/* タブ切替（シャドウ付き） */}
+<div style={{ position: "relative", marginBottom: 8 }}>
+  {/* 左シャドウ */}
+  <div style={{
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 24,
+    background: "linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0))",
+    zIndex: 1,
+    pointerEvents: "none"
+  }} />
+
+  {/* 右シャドウ */}
+  <div style={{
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 24,
+    background: "linear-gradient(to left, rgba(0,0,0,0.15), rgba(0,0,0,0))",
+    zIndex: 1,
+    pointerEvents: "none"
+  }} />
+
+  {/* 横スクロール本体 */}
+  <div
+    style={{
+      padding: "8px 16px",
+      display: "flex",
+      gap: 12,
+      borderBottom: "1px solid #ddd",
+      backgroundColor: "#faf7f2",
+      overflowX: "auto",
+      whiteSpace: "nowrap",
+      scrollbarWidth: "none",       // Firefox
+      msOverflowStyle: "none"       // IE・Edge
+    }}
+  >
+    <button
+      onClick={() => setActiveTab("profile")}
+      style={{
+        padding: "8px 16px",
+        borderRadius: 20,
+        backgroundColor: activeTab === "profile" ? "#f0e8dc" : "transparent",
+        fontWeight: activeTab === "profile" ? 600 : 400,
+        color: activeTab === "profile" ? "#1a1a1a" : "#555",
+        border: "1px solid #ddd",
+        cursor: "pointer",
+        flexShrink: 0
+      }}
+    >
+      👤プロフィール
+    </button>
+
+    <button
+      onClick={() => setActiveTab("artists")}
+      style={{
+        padding: "8px 16px",
+        borderRadius: 20,
+        backgroundColor: activeTab === "artists" ? "#f0e8dc" : "transparent",
+        fontWeight: activeTab === "artists" ? 600 : 400,
+        color: activeTab === "artists" ? "#1a1a1a" : "#555",
+        border: "1px solid #ddd",
+        cursor: "pointer",
+        flexShrink: 0
+      }}
+    >
+      🎨 好きな芸術家
+    </button>
+
+    <button
+      onClick={() => setActiveTab("museums")}
+      style={{
+        padding: "8px 16px",
+        borderRadius: 20,
+        backgroundColor: activeTab === "museums" ? "#f0e8dc" : "transparent",
+        fontWeight: activeTab === "museums" ? 600 : 400,
+        color: activeTab === "museums" ? "#1a1a1a" : "#555",
+        border: "1px solid #ddd",
+        cursor: "pointer",
+        flexShrink: 0
+      }}
+    >
+      🏦 好きな美術館
+    </button>
   </div>
 </div>
 
 
-<div
-  style={{
-    backgroundColor: "#fff",
-    margin: 15,
-    padding: 24,
-    borderRadius: 15,
-    border: "none",
-    boxShadow: "none",
-  }}
->
-<div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-  {/* プロフィール情報タブ */}
-  <button
-    onClick={() => setActiveTab("profile")}
-    style={{
-      padding: "6px 16px",
-      border: "1px solid #ddd",
-      backgroundColor: activeTab === "profile" ? "#f0e8dc" : "#fff",
-      fontWeight: activeTab === "profile" ? 600 : 400,
-      color: activeTab === "profile" ? "#1a1a1a" : "#555",
-      borderRadius: 20,
-      cursor: "pointer",
-      transition: "background-color 0.2s",
-    }}
-  >
-    プロフィール情報
-  </button>
 
-  {/* アート情報タブ */}
-  <button
-    onClick={() => setActiveTab("art")}
-    style={{
-      padding: "6px 16px",
-      border: "1px solid #ddd",
-      backgroundColor: activeTab === "art" ? "#f0e8dc" : "#fff",
-      fontWeight: activeTab === "art" ? 600 : 400,
-      color: activeTab === "art" ? "#1a1a1a" : "#555",
-      borderRadius: 20,
-      cursor: "pointer",
-      transition: "background-color 0.2s",
-    }}
-  >
-    アート情報
-  </button>
-</div>
+    {/* タブ中身カード */}
+    <div
+      style={{
+        backgroundColor: "#fff",
+        margin: 15,
+        padding: 24,
+        borderRadius: 15,
+        border: "none",
+        boxShadow: "none",
+      }}
+    >
+      {activeTab === "profile" && (
+        <>
 
+          {/* ニックネーム（この直後がご希望の位置） */}
 
-        {activeTab === "profile" && (
-          <>
-            <h2 style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 16 }}>プロフィール情報</h2>
         <label>ニックネーム(表示名)※必須</label>
 <input
   value={userName}
@@ -437,146 +497,162 @@ const toggleFavorite = (name, isMuseum = false) => {
           </>
         )}
 
-        {activeTab === "art" && (
-          <>
-            <h2 style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 16 }}>アート情報</h2>
-        {/* 好きな芸術家 */}
-<label style={{ display: "block", marginTop: 32, fontWeight: 600 }}>
-  🎨 好きな芸術家（検索して追加）
-</label>
+{activeTab === "artists" && (
+  <>
+    <h2 style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 16 }}>
+      🎨 好きな芸術家（検索して追加）
+    </h2>
 
-<input
-  value={searchTerm}
-  onChange={(e) => setSearchTerm(e.target.value)}
-  placeholder="例：ゴッホ、van Gogh..."
-  style={{
-    width: "100%",
-    padding: 8,
-    border: "1px solid #ccc",
-    borderRadius: 4,
-    marginBottom: 8,
-  }}
-/>
+    <input
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      placeholder="例：ゴッホ、van Gogh..."
+      style={{
+        width: "100%",
+        padding: 8,
+        border: "1px solid #ccc",
+        borderRadius: 4,
+        marginBottom: 8,
+      }}
+    />
 
-{/* 2文字未満のときのヒント表示 */}
-{searchTerm.length > 0 && searchTerm.length < 2 && (
-  <p style={{ color: "#888", fontSize: "0.9rem", marginBottom: 8 }}>
-    2文字以上で検索できます
-  </p>
+    {searchTerm.length > 0 && searchTerm.length < 2 && (
+      <p style={{ color: "#888", fontSize: "0.9rem", marginBottom: 8 }}>
+        2文字以上で検索できます
+      </p>
+    )}
+
+    {searchTerm.length >= 2 && filteredOptions.length > 0 && (
+      <ul style={{ paddingLeft: 0, listStyle: "none", marginBottom: 8 }}>
+        {filteredOptions.map((artist, index) => (
+          <li
+            key={`${artist.ja}-${index}`}
+            onClick={() => addArtist(artist)}
+            style={{
+              cursor: "pointer",
+              padding: "10px 12px",
+              marginBottom: 6,
+              backgroundColor: "#f5f5f5",
+              border: "1px solid #ddd",
+              borderRadius: 4,
+              fontSize: "0.95rem",
+              color: "#222",
+            }}
+          >
+            ➕ {artist.ja}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <ul style={{ listStyle: "none", padding: 0, marginTop: 16 }}>
+      {[...selectedArtists]
+        .sort((a, b) => (b.favorite === true) - (a.favorite === true))
+        .map((a, i) => (
+          <li
+            key={`${a.name}-${i}`}
+            style={{
+              marginBottom: 8,
+              padding: 8,
+              border: "1px solid #ddd",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span>
+              {a.name} {a.favorite && "✨"}
+            </span>
+            <div>
+              <button onClick={() => toggleFavorite(a.name)} style={{ marginRight: 8 }}>
+                {a.favorite ? "推し解除｜" : "✨推し｜"}
+              </button>
+              <button onClick={() => removeItem(a.name)}>❎️</button>
+            </div>
+          </li>
+        ))}
+    </ul>
+  </>
 )}
+{activeTab === "museums" && (
+  <>
+    <h2 style={{ fontSize: "1.2rem", fontWeight: 600, marginBottom: 16 }}>
+      🏦 好きな美術館（検索して追加）
+    </h2>
 
-{/* 候補リスト（2文字以上の場合のみ） */}
-{searchTerm.length >= 2 && filteredOptions.length > 0 && (
-<ul style={{ paddingLeft: 0, listStyle: "none", marginBottom: 8 }}>
-  {filteredOptions.map((artist, index) => (
-<li
-　key={`${artist.ja}-${index}`}
-  onClick={() => addArtist(artist)}
-  style={{
-    cursor: "pointer",
-    padding: "10px 12px",
-    marginBottom: 6,
-    backgroundColor: "#f5f5f5",
-    border: "1px solid #ddd",
-    boxShadow: "none",
-    borderRadius: 4,
-    fontSize: "0.95rem",
-    color: "#222",
-  }}
->
-  ➕ {artist.ja}
-</li>
-  ))}
-</ul>
+    <input
+      value={museumSearchTerm}
+      onChange={(e) => setMuseumSearchTerm(e.target.value)}
+      placeholder="例：東京都現代美術館、MOT..."
+      style={{
+        width: "100%",
+        padding: 8,
+        border: "1px solid #ccc",
+        borderRadius: 4,
+        marginBottom: 8,
+      }}
+    />
 
+    {museumSearchTerm.length > 0 && museumSearchTerm.length < 2 && (
+      <p style={{ color: "#888", fontSize: "0.9rem", marginBottom: 8 }}>
+        2文字以上で検索できます
+      </p>
+    )}
+
+    {museumSearchTerm.length >= 2 && filteredMuseums.length > 0 && (
+      <ul style={{ paddingLeft: 0, listStyle: "none", marginBottom: 8 }}>
+        {filteredMuseums.map((museum, index) => (
+          <li
+            key={`${museum.ja}-${index}`}
+            onClick={() => addMuseum(museum)}
+            style={{
+              cursor: "pointer",
+              padding: "10px 12px",
+              marginBottom: 6,
+              backgroundColor: "#e8e8e8",
+              border: "2px solid #c0c0c0",
+              boxShadow: "2px 2px #999",
+              borderRadius: 2,
+              fontFamily: "monospace",
+              fontSize: "0.95rem",
+              color: "#222",
+            }}
+          >
+            ➕ {museum.ja}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <ul style={{ listStyle: "none", padding: 0, marginTop: 16 }}>
+      {[...selectedMuseums]
+        .sort((a, b) => (b.favorite === true) - (a.favorite === true))
+        .map((m, i) => (
+          <li
+            key={`${m.name}-${i}`}
+            style={{
+              marginBottom: 8,
+              padding: 8,
+              border: "1px solid #ddd",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span>
+              {m.name} {m.favorite && "✨"}
+            </span>
+            <div>
+              <button onClick={() => toggleFavorite(m.name, true)} style={{ marginRight: 8 }}>
+                {m.favorite ? "推し解除" : "✨推し｜"}
+              </button>
+              <button onClick={() => removeItem(m.name, true)}>❎️</button>
+            </div>
+          </li>
+        ))}
+    </ul>
+  </>
 )}
-
-        <ul style={{ listStyle: "none", padding: 0, marginTop: 16 }}>
-          {[...selectedArtists]
-            .sort((a, b) => (b.favorite === true) - (a.favorite === true))
-            .map((a, i) => (
-              <li key={`${a.name}-${i}`} style={{ marginBottom: 8, padding: 8, border: "1px solid #ddd", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span>{a.name} {a.favorite && "✨"}</span>
-                <div>
-                  <button onClick={() => toggleFavorite(a.name)} style={{ marginRight: 8 }}>
-                    {a.favorite ? "推し解除｜" : "✨推し｜"}
-                  </button>
-                  <button onClick={() => removeItem(a.name)}>❎️</button>
-                </div>
-              </li>
-            ))}
-        </ul>
-
-{/* 好きな美術館 */}
-<label style={{ display: "block", marginTop: 32, fontWeight: 600 }}>
-  🏦 好きな美術館（検索して追加）
-</label>
-
-<input
-  value={museumSearchTerm}
-  onChange={(e) => setMuseumSearchTerm(e.target.value)}
-  placeholder="例：東京都現代美術館、MOT..."
-  style={{
-    width: "100%",
-    padding: 8,
-    border: "1px solid #ccc",
-    borderRadius: 4,
-    marginBottom: 8,
-  }}
-/>
-
-{/* 2文字未満のときのヒント表示 */}
-{museumSearchTerm.length > 0 && museumSearchTerm.length < 2 && (
-  <p style={{ color: "#888", fontSize: "0.9rem", marginBottom: 8 }}>
-    2文字以上で検索できます
-  </p>
-)}
-
-{/* 候補リスト（2文字以上の場合のみ） */}
-{museumSearchTerm.length >= 2 && filteredMuseums.length > 0 && (
-  <ul style={{ paddingLeft: 0, listStyle: "none", marginBottom: 8 }}>
-    {filteredMuseums.map((museum, index) => (
-      <li
-        key={`${museum.ja}-${index}`}
-        onClick={() => addMuseum(museum)}
-        style={{
-          cursor: "pointer",
-          padding: "10px 12px",
-          marginBottom: 6,
-          backgroundColor: "#e8e8e8",
-          border: "2px solid #c0c0c0",
-          boxShadow: "2px 2px #999",
-          borderRadius: 2,
-          fontFamily: "monospace",
-          fontSize: "0.95rem",
-          color: "#222",
-          transition: "background-color 0.2s",
-        }}
-      >
-        ➕ {museum.ja}
-      </li>
-    ))}
-  </ul>
-)}
-
-
-        <ul style={{ listStyle: "none", padding: 0, marginTop: 16 }}>
-          {[...selectedMuseums]
-            .sort((a, b) => (b.favorite === true) - (a.favorite === true))
-            .map((m, i) => (
-              <li key={`${m.name}-${i}`} style={{ marginBottom: 8, padding: 8, border: "1px solid #ddd", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span>{m.name} {m.favorite && "✨"}</span>
-                <div>
-                  <button onClick={() => toggleFavorite(m.name, true)} style={{ marginRight: 8 }}>
-                    {m.favorite ? "推し解除" : "✨推し｜"}
-                  </button>
-                  <button onClick={() => removeItem(m.name, true)}>❎️</button>
-                </div>
-              </li>
-            ))}
-        </ul>
-          </>
-        )}
 
 <button
   onClick={handleSave}
@@ -592,8 +668,8 @@ const toggleFavorite = (name, isMuseum = false) => {
       !!userNameError || !!usernameError || !!instagramError ||
       userName.trim().length === 0 || username.trim().length < 3
         ? "#ccc"
-        : "#000",
-    color: "#fff",
+        : "#f5de57",
+    color: "#000",
     border: "none",
     borderRadius: 4,
     cursor:

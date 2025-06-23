@@ -92,7 +92,7 @@ const loginWithGoogle = async () => {
           ARRRTR
         </h1>
         <p style={{ fontSize: "1rem", marginBottom: 24, lineHeight: 1.5 }}>
-          あなたの「推し」が誰かの出会いに。記録と共感でひろがる、小さくて静かな共感スペース。
+          あなたの「推し」芸術家が誰かの新たな出会いに。記録と共感でひろがる、小さくて静かな共感スペース。
         </p>
 
         <div style={{ marginBottom: 24, fontSize: "0.95rem", lineHeight: 1.4 }}>
